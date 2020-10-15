@@ -2,8 +2,6 @@
 #define BITMAPDILEHEADER_H_
 #include <cstdint>
 using namespace std;
-
-
 #pragma pack(2)
 namespace milad {
 struct BitmapFileHeader{
@@ -13,14 +11,4 @@ struct BitmapFileHeader{
 	int32_t dataOffset;
 };
 }
-
-
-
-
-
-
-
-
-
-
 #endif
