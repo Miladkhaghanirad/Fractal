@@ -1,12 +1,12 @@
 #include <iostream>
-#include "BitmapFileHeader.h"
-#include "BitmapInfoHeader.h"
+#include "Bitmap.h"
 
 using namespace std;
 using namespace milad;
 
 int main(){
-	BitmapFileHeader f;
-	cout << sizeof(f) << endl;
+	Bitmap bitmap(800,600);
+	bitmap.write("test.bmp");
+	cout << "finished" << endl;
 	return 0;
 }  
