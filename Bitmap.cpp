@@ -34,7 +34,12 @@ namespace milad{
 		return true;
 	}
 	void Bitmap::setPixel(int x, int y, uint8_t red, uint8_t green, uint8_t blue){
-	
+	uint8_t *pPixel = m_pPixels.get();
+	pPixel += (3 * y ) * m_width + (x * 3);
+
+	pPixel[0] = blue;
+	pPixel[1] = green;
+	pPixel[2] = red;
 	}
 	Bitmap::~Bitmap(){
 	
