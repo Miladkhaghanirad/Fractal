@@ -3,7 +3,8 @@
 #include "Bitmap.h"
 #include "Mandelbrot.h"
 #include "memory"
-
+#include <map>
+#include "math.h"
 using namespace std;
 using namespace milad;
 int getcolor(int i){
@@ -22,7 +23,7 @@ int main(){
 	double max = -999999;
 
 	unique_ptr<int[]> histogram(new int[Mandelbrot::MAX_ITERATIONS]{0});
-
+	unique_ptr<int[]> fractal(new int[WIDTH*HEIGHT]{0});
 	Bitmap bitmap(WIDTH,HEIGHT);
 	for(int i = 0;i< WIDTH;i++){
 		for(int j=0;j<HEIGHT;j++){
@@ -30,32 +31,48 @@ int main(){
 			double yFractal = (j - HEIGHT/2) * 2.0 /HEIGHT;
 
 			int iterations = Mandelbrot::getIterations(xFractal,yFractal);
+			fractal[j*WIDTH+i]= iterations;
+
 			if(iterations != Mandelbrot::MAX_ITERATIONS){
 				histogram[iterations]++;
 			}
-
-
-			uint8_t color =(uint8_t)(256*(double)iterations /Mandelbrot::MAX_ITERATIONS);
-			
-			color = color * color * color;
-
-			bitmap.setPixel(i,j,0,color,0);
-
-			if(color<min) min = color;
-			if(color>max) max = color;
 		}
 	}
-	cout << endl;
-	int count = 0;
-	for(int i = 0 ;i< Mandelbrot::MAX_ITERATIONS;i++){
-		cout << histogram[i] << "  " << flush;
-		count += histogram[i];
+
+	int total = 0;
+	for (int i = 0; i < Mandelbrot::MAX_ITERATIONS; i++)
+	{
+		total += histogram[i];
 	}
+	for(int i = 0;i< WIDTH;i++){
+		for(int j=0;j<HEIGHT;j++){
+
+			uint8_t red = 0;
+			uint8_t green = 0;
+			uint8_t blue = 0;
+
+
+			int iterations = fractal[j*WIDTH+i];
+			if(iterations != Mandelbrot::MAX_ITERATIONS){
+			uint8_t color =(uint8_t)(256*(double)iterations /Mandelbrot::MAX_ITERATIONS);
+			double hue = 0.0;
+			for (int i = 0; i <= iterations; i++)
+			{
+				hue +=((double) histogram[i])/total;
+				/* code */
+			}
+			
+			green = pow(255,hue);
+			}
+			bitmap.setPixel(i,j,red,green,blue);
+		
+
+		}
+	}
+
+
+
 	cout << endl;
-	cout << count << "; " << WIDTH * HEIGHT << endl;
-
-
-	cout << min << "  was min and max is : " << max << endl;
 	bitmap.write("Mandelbrot.bmp");
 	cout << "finished" << endl;
 	return 0;
