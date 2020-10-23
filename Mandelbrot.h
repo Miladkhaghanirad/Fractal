@@ -3,7 +3,7 @@
 namespace milad{
 class Mandelbrot{
 public:
-    static const int MAX_ITERATIONS = 1000;
+    static const int MAX_ITERATIONS = 5000;
 
 public:
     Mandelbrot();
