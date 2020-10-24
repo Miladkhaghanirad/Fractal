@@ -1,37 +1,23 @@
 #include <iostream>
-#include <cstdint>
-#include "Bitmap.h"
-#include "Mandelbrot.h"
-#include "memory"
-#include <map>
-#include "math.h"
-#include "ZoomList.h"
 #include "FractalCreator.h"
+#include "RGB.h"
+#include "Zoom.h"
 
 using namespace std;
 using namespace milad;
-int getcolor(int i){
-	int res;
-	res = i *10 ;
-	if (res > 255)
-		res = res - 255;
-
-	return res;
-}
 
 int main(){
-	int height = 600;
-
-
+	
 	FractalCreator fractalcreator(800,600);
+	fractalcreator.addRange(0.0,RGB(0,0,0));
+	fractalcreator.addRange(0.3,RGB(255,0,0));
+	fractalcreator.addRange(0.5,RGB(255,255,0));
+	fractalcreator.addRange(1.0,RGB(255,255,255));
+	fractalcreator.addZoom(Zoom(295,202,0.1));
+	fractalcreator.addZoom(Zoom(312,304,0.1));
+	fractalcreator.run("Mandelbrot.bmp");
 	
 	
-	fractalcreator.addZoom(Zoom(451,height-300,0.1));
-	//fractalcreator.addZoom(Zoom(392,height-300,0.1));
-	fractalcreator.calculateIteration();
-	fractalcreator.calculateTotalIterations();
-	fractalcreator.drawFractal();
-	fractalcreator.writeBitmap("Mandelbrot.bmp");
 	cout << "finished" << endl;
 	return 0;
 }  

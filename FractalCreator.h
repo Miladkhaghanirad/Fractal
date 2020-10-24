@@ -6,6 +6,8 @@
 #include "memory"
 #include "ZoomList.h"
 #include "Bitmap.h"
+#include <vector>
+#include "RGB.h"
 
 using namespace std;
 
@@ -22,14 +24,27 @@ namespace milad{
         ZoomList m_zoomlist;
         int m_total{0};
 
-    public:
-        FractalCreator(int width,int height);
-        virtual ~FractalCreator();
+        vector<int> m_ranges;
+        vector<RGB> m_colors;
+        vector<int> m_rangeTotals;
+
+        bool m_bGotFirstRange{false};
+        
+
+    private:
         void calculateIteration();
         void calculateTotalIterations();
+        void calculateRangeTotals();
         void drawFractal();
-        void addZoom(const Zoom& zoom);
         void writeBitmap(string name);
+
+    public:
+        FractalCreator(int width,int height);
+        void addRange(double rangeEnd,const RGB& rgb);
+        void addZoom(const Zoom& zoom);
+        virtual ~FractalCreator();
+        void run(string name);
+
     };
    
     
